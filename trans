@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+# coding:utf-8
+
+from selenium import webdriver
+import time
+import sys
+import unicodedata as uni
+import os
+
+
+def is_japanese(q):
+    for char in q:
+        if ('HIRAGANA' in uni.name(char)) or ('KATAKANA' in uni.name(char)) or ('CJK UNIFIED' in uni.name(char)):
+            return True
+    return False
+
+
+def translate(q):
+    if is_japanese(q):
+        url = 'https://translate.google.co.jp/?hl=ja&tab=TT#ja/en/'
+    else:
+        url = 'https://translate.google.co.jp/?hl=ja&tab=TT#en/ja/'
+
+    user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
+    pjs_path = os.path.abspath(os.path.dirname(
+        __file__)) + '/node_modules/phantomjs/bin/phantomjs'
+    dcap = {
+        "phantomjs.page.settings.userAgent": user_agent,
+        'marionette': True
+    }
+
+    driver = webdriver.PhantomJS(
+        executable_path=pjs_path, desired_capabilities=dcap)
+    driver.get(url)
+    input_form = driver.find_element_by_id('source')
+    input_form.send_keys(q)
+    time.sleep(1)
+    result_form = driver.find_elements_by_id('result_box')
+    result = ''
+    for i in result_form:
+        if i.text:
+            result = i.text
+            break
+    driver.quit()
+    return result
+
+
+if __name__ == '__main__':
+    params = sys.argv
+    print(translate(params[1]))
