@@ -28,9 +28,9 @@ def translate(q):
         "phantomjs.page.settings.userAgent": user_agent,
         'marionette': True
     }
-
+    log_name = os.path.abspath(os.path.dirname(__file__)) + '/ghostdriver.log'
     driver = webdriver.PhantomJS(
-        executable_path=pjs_path, desired_capabilities=dcap)
+        executable_path=pjs_path, desired_capabilities=dcap, service_log_path=log_name)
     driver.get(url)
     input_form = driver.find_element_by_id('source')
     input_form.send_keys(q)
