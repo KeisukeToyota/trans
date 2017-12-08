@@ -46,5 +46,4 @@ def translate(q):
 
 
 if __name__ == '__main__':
-    params = sys.argv
-    print(translate(params[1]))
+    print(translate(' '.join(sys.argv[1:])))
