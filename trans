@@ -2,6 +2,7 @@
 # coding:utf-8
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import time
 import sys
 import unicodedata as uni
@@ -21,16 +22,12 @@ def translate(q):
     else:
         url = 'https://translate.google.co.jp/?hl=ja&tab=TT#en/ja/'
 
-    user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
-    pjs_path = os.path.abspath(os.path.dirname(
-        __file__)) + '/node_modules/phantomjs/bin/phantomjs'
-    dcap = {
-        "phantomjs.page.settings.userAgent": user_agent,
-        'marionette': True
-    }
-    log_name = os.path.abspath(os.path.dirname(__file__)) + '/ghostdriver.log'
-    driver = webdriver.PhantomJS(
-        executable_path=pjs_path, desired_capabilities=dcap, service_log_path=log_name)
+    opts = Options()
+    opts.add_argument('--headless')
+    opts.add_argument('--disable-gpu')
+    opts.add_argument('--no-sandbox')
+
+    driver = webdriver.Chrome(chrome_options=opts)
     driver.get(url)
     input_form = driver.find_element_by_id('source')
     input_form.send_keys(q)

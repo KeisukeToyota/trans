@@ -7,5 +7,5 @@ Translate string to Japanese or English.
 `$trans こんにちは`
 
 ## install
-`$pip install selenium`  
+`$pip install -r requirements.txt`  
 `$npm install`
