@@ -1,6 +1,6 @@
 sudo cp -r trans ~/.trans
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 case `dscl localhost -read Local/Default/Users/$USER UserShell | cut -d' ' -f2 | grep 'zsh'` in
 *bash*)
