@@ -7,5 +7,10 @@ Translate string to Japanese or English.
 `$trans こんにちは`
 
 ## install
-`$pip install -r requirements.txt`  
-`$npm install`
+
+```shell
+$ git clone https://github.com/KeisukeToyota/trans
+$ cd trans
+$ ./install.sh
+$ source ~/.zshrc # or ~/.bash_profile
+```
