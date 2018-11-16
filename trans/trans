@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # coding:utf-8
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import time
 import sys
 import unicodedata as uni
-import os
-
+from googletrans import Translator
 
 def is_japanese(q):
     for char in q:
@@ -18,28 +14,16 @@ def is_japanese(q):
 
 def translate(q):
     if is_japanese(q):
-        url = 'https://translate.google.co.jp/?hl=ja&tab=TT#ja/en/'
+        src = 'ja'
+        dest = 'en'
     else:
-        url = 'https://translate.google.co.jp/?hl=ja&tab=TT#en/ja/'
+        src = 'en'
+        dest = 'ja'
 
-    opts = Options()
-    opts.add_argument('--headless')
-    opts.add_argument('--disable-gpu')
-    opts.add_argument('--no-sandbox')
+    translator = Translator()
+    result = translator.translate(q, src=src, dest=dest)
 
-    driver = webdriver.Chrome(chrome_options=opts)
-    driver.get(url)
-    input_form = driver.find_element_by_id('source')
-    input_form.send_keys(q)
-    time.sleep(1)
-    result_form = driver.find_elements_by_id('result_box')
-    result = ''
-    for i in result_form:
-        if i.text:
-            result = i.text
-            break
-    driver.quit()
-    return result
+    return result.text
 
 
 if __name__ == '__main__':
